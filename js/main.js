@@ -1,30 +1,30 @@
 //alert()
 
-const tasasDeCambio = {
-    Dolar: 1100,    
-    Euro: 932, 
-    Libra: 1275, 
-    Yen: 2.33,  
-    Bitcoin: 10865262
+let tasasDeCambio = JSON.parse(localStorage.getItem('tasasDeCambio')) ||{
+    Dolares: 1100,    
+    Euros: 932, 
+    Libras: 1275, 
+    Yenes: 2.33,  
+    Bitcoins: 13347160
 };
-const monedas = ['Dolar', 'Euro', 'Libras', 'Yenes', 'Bitcoin']
+
+const monedas = ['Dolares', 'Euros', 'Libras', 'Yenes', 'Bitcoins']
 let continuar = true;
 
-while (continuar) {
-let pesos = prompt("Ingrese cantidad de Pesos $ a convertir");
-let moneda = prompt("A que moneda quiere intercambiar sus pesos:" + monedas.join(" ,"));
+let pesos = document.getElementById("cantidad").value;
+let moneda = document.getElementById("moneda").value;
 
-if(moneda === "Dolar"){
-    alert(pesos + " pesos son " + Number(pesos)/tasasDeCambio.Dolar + " dolares");
-}else if(moneda === "Euro"){
-    alert(pesos + " pesos son " + Number(pesos)/tasasDeCambio.Euro + " euros");
-}else if (moneda === "Libras"){
-    alert(pesos + " pesos son " + Number(pesos)/tasasDeCambio.Libra + " libras");
-}else if (moneda === "Yenes"){
-    alert(pesos + " pesos son " + Number(pesos)/tasasDeCambio.Yen + " yenes");
-}else if (moneda === "Bitcoin"){
-    alert(pesos + " pesos son " + Number(pesos)/tasasDeCambio.Bitcoin + " bitcoins");
-}else("Moneda no aceptada")
+function convertir() {
+    const cantidad = document.getElementById('cantidad').value;
+    const moneda = document.getElementById('moneda').value;
+    if (tasasDeCambio.hasOwnProperty(moneda)) {
+        const resultado = cantidad / tasasDeCambio[moneda];
+        const mensaje = 'El resultado de la conversión es: ' + resultado.toFixed(8) + ' ' + moneda.toLowerCase();
+        document.getElementById('resultado').innerText = mensaje;
+    }}
 
-continuar = confirm("¿Quieres realizar otra conversion?")
+function guardarTasasDeCambio() {
+    localStorage.setItem('tasasDeCambio', JSON.stringify(tasasDeCambio));
 }
+
+document.getElementById('convertirBtn').addEventListener('click', convertir);
